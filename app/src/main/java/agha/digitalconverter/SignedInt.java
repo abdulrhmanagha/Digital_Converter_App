@@ -180,7 +180,7 @@ public class SignedInt extends Fragment {
             }
         });
 
-        sm.addTextChangedListener(new TextWatcher() {
+        /*sm.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 return;
@@ -200,23 +200,63 @@ public class SignedInt extends Fragment {
                         sm.setError("Fractions are not allowed");
                     } else {
                         if (!SM.isEmpty()) {
-                            if (Long.parseLong(SM) > Long.parseLong("2147483647") || Long.parseLong(SM) < Long.parseLong("-2147483647")) {
-                                changeDrawableSm();
-                                sm.setError("Supports only 32-bit");
+                            if (SM.equalsIgnoreCase("1")) {
+                                sm.setBackground(getResources().getDrawable(R.drawable.main_textview));
+                                s2.setText("");
+                                dec.setText("");
+                                hex.setText("");
+                            } else if (!isIntBin(SM)) {
+                                changeDrawableS2();
+                                s2.setError("Binary accepts only 0 or 1");
                             } else {
                                 sm.setBackground(getResources().getDrawable(R.drawable.main_textview));
                                 s2.setText(SSMTo2s(SM));
                                 dec.setText(SSMToDec(SM) + "");
                                 hex.setText(SSMToHex(SM));
                             }
-                        } else if (!isIntBin(SM)) {
-                            changeDrawableS2();
-                            s2.setError("Binary accepts only 0 or 1");
-                        } else {
+                        }
+                    }
+                }
+            }
+        });*/
+        sm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                return;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                return;
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (sm.isFocused()) {
+                    String Binary = sm.getText().toString();
+                    if (hasPoint(Binary)) {
+                        changeDrawableSm();
+                        sm.setError("Fractions are not allowed");
+                    } else {
+                        if (!isIntBin(Binary)) {
+                            changeDrawableSm();
+                            sm.setError("Binary accepts only 0 or 1");
+                        } else if (Binary.equalsIgnoreCase("1")){
                             sm.setBackground(getResources().getDrawable(R.drawable.main_textview));
-                            s2.setText("");
                             dec.setText("");
                             hex.setText("");
+                            s2.setText("");
+                        } else if(!Binary.isEmpty()){
+                            sm.setBackground(getResources().getDrawable(R.drawable.main_textview));
+                            dec.setText(SSMToDec(Binary) + "");
+                            hex.setText(SSMToHex(Binary));
+                            s2.setText(SSMTo2s(Binary));
+                        }
+                        else{
+                            sm.setBackground(getResources().getDrawable(R.drawable.main_textview));
+                            dec.setText("");
+                            hex.setText("");
+                            s2.setText("");
                         }
                     }
                 }
